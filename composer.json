@@ -1,0 +1,24 @@
+{
+    "name": "your-name-here/AwsSesTransport",
+    "description": "AwsSesTransport plugin for CakePHP",
+    "type": "cakephp-plugin",
+    "require": {
+        "php": ">=5.5.9",
+        "cakephp/cakephp": ">=3.3.2 <4.0.0",
+        "aws/aws-sdk-php": "^3.19"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "AwsSesTransport\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AwsSesTransport\\Test\\": "tests",
+            "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
+        }
+    }
+}
