@@ -1,5 +1,5 @@
 {
-    "name": "your-name-here/AwsSesTransport",
+    "name": "tyrellsys/cakephp3-aws-ses-transport",
     "description": "AwsSesTransport plugin for CakePHP",
     "type": "cakephp-plugin",
     "require": {
