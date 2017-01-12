@@ -1,5 +1,5 @@
 <?php
-namespace CakePHP3AwsSesTransport\Mailer\Transport\AwsSesTransport;
+namespace CakePHP3AwsSesTransport\Mailer\Transport;
 
 use Cake\Mailer\AbstractTransport;
 use Cake\Mailer\Email;
@@ -60,14 +60,14 @@ class AwsSesTransport extends AbstractTransport
             'version' => $this->_config['version']
         ];
 
-        if (!empty($this->_config['aws_access_key_id']) && !empty($this->config['aws_access_secret_key'])) {
+        if (!empty($this->_config['aws_access_key_id']) && !empty($this->_config['aws_access_secret_key'])) {
             $options['credentials'] = [
                 'key' => $this->_config['aws_access_key_id'],
                 'secret' => $this->_config['aws_access_secret_key']
             ];
         }
 
-        $this->_ses = new Aws\Ses\SesClient($options);
+        $this->_ses = new SesClient($options);
     }
 
     /**
@@ -113,7 +113,7 @@ class AwsSesTransport extends AbstractTransport
             ),
         );
 
-        $result = $this->ses->sendRawEmail($options);
+        $result = $this->_ses->sendRawEmail($options);
         if(empty($result)) {
             throw new SocketException();
         }
