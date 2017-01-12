@@ -113,7 +113,7 @@ class AwsSesTransport extends AbstractTransport
             ),
         );
 
-        $result = $this->ses->sendRawEmail($options);
+        $result = $this->_ses->sendRawEmail($options);
         if(empty($result)) {
             throw new SocketException();
         }
