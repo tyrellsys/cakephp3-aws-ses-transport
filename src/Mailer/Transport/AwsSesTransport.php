@@ -67,7 +67,7 @@ class AwsSesTransport extends AbstractTransport
             ];
         }
 
-        $this->_ses = new Aws\Ses\SesClient($options);
+        $this->_ses = new SesClient($options);
     }
 
     /**
