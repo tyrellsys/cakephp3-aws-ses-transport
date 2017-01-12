@@ -1,10 +1,10 @@
 <?php
-namespace Mailer\Transport\AwsSesTransport;
+namespace CakePHP3AwsSesTransport\Mailer\Transport\AwsSesTransport;
 
 use Cake\Mailer\AbstractTransport;
 use Cake\Mailer\Email;
 use Aws\Ses\SesClient;
-Cake\Network\Exception\SocketException;
+use Cake\Network\Exception\SocketException;
 
 /**
  * Send mail using AWS SES API
