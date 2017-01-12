@@ -60,7 +60,7 @@ class AwsSesTransport extends AbstractTransport
             'version' => $this->_config['version']
         ];
 
-        if (!empty($this->_config['aws_access_key_id']) && !empty($this->config['aws_access_secret_key'])) {
+        if (!empty($this->_config['aws_access_key_id']) && !empty($this->_config['aws_access_secret_key'])) {
             $options['credentials'] = [
                 'key' => $this->_config['aws_access_key_id'],
                 'secret' => $this->_config['aws_access_secret_key']
