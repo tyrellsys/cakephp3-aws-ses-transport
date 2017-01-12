@@ -1,5 +1,5 @@
 <?php
-namespace Mailer\Transport\AwsSesTransport;
+namespace CakePHP3AwsSesTransport\Mailer\Transport\AwsSesTransport;
 
 use Cake\Mailer\AbstractTransport;
 use Cake\Mailer\Email;
