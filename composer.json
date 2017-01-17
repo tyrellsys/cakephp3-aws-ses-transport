@@ -5,7 +5,7 @@
     "require": {
         "php": ">=5.5.9",
         "cakephp/cakephp": ">=3.3.0 <4.0.0",
-        "aws/aws-sdk-php": "^3.19"
+        "aws/aws-sdk-php": "^3.18"
     },
     "require-dev": {
         "phpunit/phpunit": "*"
