@@ -91,27 +91,34 @@ class AwsSesTransport extends AbstractTransport
     {
         $this->_connect();
 
-        $headers = $this->_headersToString(
-            $email->getHeaders([
-                'from',
-                'sender',
-                'replyTo',
-                'readReceipt',
-                'returnPath',
-                'to',
-                'cc',
-                'bcc',
-                'subject'
-            ])
-        );
+        $headers = $email->getHeaders([
+            'from',
+            'sender',
+            'replyTo',
+            'readReceipt',
+            'returnPath',
+            'to',
+            'cc',
+            'bcc',
+            'subject'
+        ]);
+
+        $options = [];
+        if (!empty($headers["X-BounceTo"])){
+            $options += ['Source' => $headers["X-BounceTo"]];
+            unset($headers["X-BounceTo"]);
+        }
+
+        $headers = $this->_headersToString($headers);
+
         $message = implode("\r\n", (array)$email->message());
 
         $raw = $headers . "\r\n\r\n" . $message;
-        $options = array(
-            'RawMessage' => array(
-                'Data' => $raw,
-            ),
-        );
+        $options += [
+            'RawMessage' => [
+                'Data' => $raw
+            ],
+        ];
 
         $result = $this->_ses->sendRawEmail($options);
         if(empty($result)) {
