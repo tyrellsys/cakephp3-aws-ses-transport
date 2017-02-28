@@ -103,9 +103,8 @@ class AwsSesTransport extends AbstractTransport
             'subject'
         ]);
 
-        $options = [];
         if (!empty($headers["X-BounceTo"])){
-            $options += ['Source' => $headers["X-BounceTo"]];
+            $headers["Return-Path"] = $headers["X-BounceTo"];
             unset($headers["X-BounceTo"]);
         }
 
@@ -114,7 +113,7 @@ class AwsSesTransport extends AbstractTransport
         $message = implode("\r\n", (array)$email->message());
 
         $raw = $headers . "\r\n\r\n" . $message;
-        $options += [
+        $options = [
             'RawMessage' => [
                 'Data' => $raw
             ],
