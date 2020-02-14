@@ -2,7 +2,7 @@
 namespace CakePHP3AwsSesTransport\Mailer\Transport;
 
 use Cake\Mailer\AbstractTransport;
-use Cake\Mailer\Email;
+use Cake\Mailer\Message;
 use Aws\Ses\SesClient;
 use Cake\Network\Exception\SocketException;
 
@@ -40,7 +40,8 @@ class AwsSesTransport extends AbstractTransport
      *
      * @return Aws\Result
      */
-    public function getLastResponse() {
+    public function getLastResponse()
+    {
         return $this->_lastResponse;
     }
 
@@ -83,44 +84,43 @@ class AwsSesTransport extends AbstractTransport
     /**
      * Send mail
      *
-     * @param \Cake\Mailer\Email $email Email instance
+     * @param \Cake\Mailer\Message $message Message instance
      * @return array
      * @throws \Cake\Network\Exception\SocketException
      */
-    public function send(Email $email)
+    public function send(Message $message): array
     {
         $this->_connect();
 
-        $headers = $email->getHeaders([
+        $headers = $message->getHeaders(['X-BounceTo']);
+        if (!empty($headers["X-BounceTo"])){
+            $message->setReturnPath($headers["X-BounceTo"]);
+            unset($headers['X-BounceTo']);
+            $message->setHeaders($headers);
+        }
+
+        $header = $message->getHeadersString([
             'from',
             'sender',
             'replyTo',
             'readReceipt',
-            'returnPath',
             'to',
             'cc',
-            'bcc',
-            'subject'
+            'subject',
+            'returnPath',
         ]);
+        $body = $message->getBodyString();
 
-        if (!empty($headers["X-BounceTo"])){
-            $headers["Return-Path"] = $headers["X-BounceTo"];
-            unset($headers["X-BounceTo"]);
-        }
+        $raw = $header . "\r\n\r\n" . $body;
 
-        $headers = $this->_headersToString($headers);
-
-        $message = implode("\r\n", (array)$email->message());
-
-        $raw = $headers . "\r\n\r\n" . $message;
-        $options = [
+        $args = [
             'RawMessage' => [
                 'Data' => $raw
             ],
         ];
 
         try {
-            $result = $this->_ses->sendRawEmail($options);
+            $result = $this->_ses->sendRawEmail($args);
         } catch (\Exception $e) {
             throw new SocketException($e->getMessage());
         }
@@ -137,5 +137,4 @@ class AwsSesTransport extends AbstractTransport
 
         return ['headers' => $headers, 'message' => $message, 'messageId' => $results['MessageId']];
     }
-
 }
