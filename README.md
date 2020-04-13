@@ -4,10 +4,16 @@
 
 You can install this plugin into your CakePHP application using [composer](http://getcomposer.org).
 
-The recommended way to install composer packages is:
+For CakePHP 4.x compatible version:
 
 ```
-composer require tyrellsys/cakephp3-aws-ses-transport
+composer require tyrellsys/cakephp3-aws-ses-transport:~4.0
+```
+
+For CakePHP 3.x compatible version:
+
+```
+composer require tyrellsys/cakephp3-aws-ses-transport:~3.0
 ```
 
 ## Configuration
