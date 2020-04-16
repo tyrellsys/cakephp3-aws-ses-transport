@@ -1,14 +1,13 @@
 {
     "name": "tyrellsys/cakephp3-aws-ses-transport",
-    "description": "AwsSesTransport plugin for CakePHP3",
+    "description": "AwsSesTransport plugin for CakePHP4",
     "type": "cakephp-plugin",
     "require": {
-        "php": ">=5.5.9",
-        "cakephp/cakephp": ">=3.3.0 <4.0.0",
-        "aws/aws-sdk-php": "^3.18"
+        "php": ">=7.2",
+        "cakephp/cakephp": "^4.0",
+        "aws/aws-sdk-php": "^3.133"
     },
     "require-dev": {
-        "phpunit/phpunit": "*"
     },
     "autoload": {
         "psr-4": {
