@@ -106,6 +106,7 @@ class AwsSesTransport extends AbstractTransport
             'readReceipt',
             'to',
             'cc',
+            'bcc',
             'subject',
             'returnPath',
         ]);
