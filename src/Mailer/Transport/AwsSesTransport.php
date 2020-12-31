@@ -21,7 +21,9 @@ class AwsSesTransport extends AbstractTransport
         'region' => 'us-east-1',
         'version' => 'latest',
         'aws_access_key_id' => '',
-        'aws_access_secret_key' => ''
+        'aws_access_secret_key' => '',
+        'timeout' => 0,
+        'connect_timeout' => 0,
     ];
 
 
@@ -48,7 +50,7 @@ class AwsSesTransport extends AbstractTransport
     /**
      * create instance the Aws\Ses\SesClient
      *
-     * @return Aws\Ses\SesClient
+     * @return void
      */
     protected function _connect()
     {
@@ -58,7 +60,11 @@ class AwsSesTransport extends AbstractTransport
 
         $options = [
             'region' => $this->_config['region'],
-            'version' => $this->_config['version']
+            'version' => $this->_config['version'],
+            'http' => [
+                'connect_timeout' => $this->_config['connect_timeout'],
+                'timeout' => $this->_config['timeout'],
+            ],
         ];
 
         if (!empty($this->_config['aws_access_key_id']) && !empty($this->_config['aws_access_secret_key'])) {
