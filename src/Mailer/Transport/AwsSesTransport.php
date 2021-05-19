@@ -99,6 +99,33 @@ class AwsSesTransport extends AbstractTransport
             $message->setHeaders($headers);
         }
 
+        // EmailQueue(https://packagist.org/packages/lorenzo/cakephp-email-queue) plugin is missing cc / bcc
+        if (filter_var($this->getConfig('useEmailQueue'), FILTER_VALIDATE_BOOLEAN)) {
+            $class = new \ReflectionClass($message);
+
+            $prop = $class->getProperty('headers');
+            $prop->setAccessible(true);
+            $messageHeaders = $prop->getValue($message);
+            
+            $prop = $class->getProperty('to');
+            $prop->setAccessible(true);
+            $prop->setValue($message, array_filter([
+                $messageHeaders['To'] ?? null => $messageHeaders['To'] ?? null,
+            ]));
+            
+            $prop = $class->getProperty('cc');
+            $prop->setAccessible(true);
+            $prop->setValue($message, array_filter([
+                $messageHeaders['Cc'] ?? null => $messageHeaders['Cc'] ?? null,
+            ]));
+            
+            $prop = $class->getProperty('bcc');
+            $prop->setAccessible(true);
+            $prop->setValue($message, array_filter([
+                $messageHeaders['Bcc'] ?? null => $messageHeaders['Bcc'] ?? null,
+            ]));
+        }
+
         $header = $message->getHeadersString([
             'from',
             'sender',
