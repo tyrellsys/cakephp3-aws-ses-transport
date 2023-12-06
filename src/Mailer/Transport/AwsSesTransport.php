@@ -142,6 +142,6 @@ class AwsSesTransport extends AbstractTransport
             throw new SocketException();
         }
 
-        return ['headers' => $headers, 'message' => $message, 'messageId' => $results['MessageId']];
+        return ['headers' => $headers, 'message' => $body, 'messageId' => $results['MessageId']];
     }
 }
