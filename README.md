@@ -4,6 +4,12 @@
 
 You can install this plugin into your CakePHP application using [composer](http://getcomposer.org).
 
+For CakePHP 5.x compatible version:
+
+```
+composer require tyrellsys/cakephp3-aws-ses-transport:~5.0
+```
+
 For CakePHP 4.x compatible version:
 
 ```

@@ -1,9 +1,9 @@
 <?php
 namespace CakePHP3AwsSesTransport\Mailer\Transport;
 
+use Aws\Ses\SesClient;
 use Cake\Mailer\AbstractTransport;
 use Cake\Mailer\Message;
-use Aws\Ses\SesClient;
 use Cake\Network\Exception\SocketException;
 
 /**
@@ -11,7 +11,6 @@ use Cake\Network\Exception\SocketException;
  */
 class AwsSesTransport extends AbstractTransport
 {
-
     /**
      * Default config for this class
      *
@@ -32,8 +31,9 @@ class AwsSesTransport extends AbstractTransport
      */
     protected $_ses = null;
 
-
-    /** @var Aws\Result */
+    /**
+     * @var Aws\Result
+     */
     protected $_lastResponse = null;
 
 
@@ -70,7 +70,7 @@ class AwsSesTransport extends AbstractTransport
         if (!empty($this->_config['aws_access_key_id']) && !empty($this->_config['aws_access_secret_key'])) {
             $options['credentials'] = [
                 'key' => $this->_config['aws_access_key_id'],
-                'secret' => $this->_config['aws_access_secret_key']
+                'secret' => $this->_config['aws_access_secret_key'],
             ];
         }
 
@@ -79,13 +79,14 @@ class AwsSesTransport extends AbstractTransport
 
     /**
      * destroy the Aws\Ses\SesClient
+     *
+     * @return void
      */
     protected function _disconnect()
     {
         unset($this->_ses);
         $this->_ses = null;
     }
-
 
     /**
      * Send mail
@@ -99,8 +100,8 @@ class AwsSesTransport extends AbstractTransport
         $this->_connect();
 
         $headers = $message->getHeaders(['X-BounceTo']);
-        if (!empty($headers["X-BounceTo"])){
-            $message->setReturnPath($headers["X-BounceTo"]);
+        if (!empty($headers['X-BounceTo'])) {
+            $message->setReturnPath($headers['X-BounceTo']);
             unset($headers['X-BounceTo']);
             $message->setHeaders($headers);
         }
@@ -122,7 +123,7 @@ class AwsSesTransport extends AbstractTransport
 
         $args = [
             'RawMessage' => [
-                'Data' => $raw
+                'Data' => $raw,
             ],
         ];
 
@@ -131,7 +132,7 @@ class AwsSesTransport extends AbstractTransport
         } catch (\Exception $e) {
             throw new SocketException($e->getMessage());
         }
-        
+
         if(empty($result)) {
             throw new SocketException();
         }
