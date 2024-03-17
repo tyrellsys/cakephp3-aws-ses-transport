@@ -16,7 +16,7 @@ class AwsSesTransport extends AbstractTransport
      *
      * @var array
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'region' => 'us-east-1',
         'version' => 'latest',
         'aws_access_key_id' => '',
