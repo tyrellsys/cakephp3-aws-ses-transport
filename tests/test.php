@@ -1,18 +1,24 @@
 <?php
+declare(strict_types=1);
+
+use Cake\Mailer\Mailer;
+use Cake\Mailer\TransportFactory;
+use CakePHP3AwsSesTransport\Mailer\Transport\AwsSesTransport;
+
 /**
  * Usage: test.php to-address from-address
  */
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-\Cake\Mailer\TransportFactory::setConfig([
+TransportFactory::setConfig([
     'ses' => [
-        'className' => \CakePHP3AwsSesTransport\Mailer\Transport\AwsSesTransport::class,
+        'className' => AwsSesTransport::class,
         'region' => 'us-east-1',
         'version' => 'latest',
     ],
 ]);
 
-$mailer = new \Cake\Mailer\Mailer();
+$mailer = new Mailer();
 $mailer
     ->setTransport('ses')
     ->setTo($argv[1])

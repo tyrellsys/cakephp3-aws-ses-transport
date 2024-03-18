@@ -1,10 +1,14 @@
 <?php
+declare(strict_types=1);
+
 namespace CakePHP3AwsSesTransport\Mailer\Transport;
 
+use Aws\Result;
 use Aws\Ses\SesClient;
 use Cake\Mailer\AbstractTransport;
 use Cake\Mailer\Message;
 use Cake\Network\Exception\SocketException;
+use Exception;
 
 /**
  * Send mail using AWS SES API
@@ -16,7 +20,7 @@ class AwsSesTransport extends AbstractTransport
      *
      * @var array
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'region' => 'us-east-1',
         'version' => 'latest',
         'aws_access_key_id' => '',
@@ -25,24 +29,22 @@ class AwsSesTransport extends AbstractTransport
         'connect_timeout' => 150,
     ];
 
+    /**
+     * @var \Aws\Ses\SesClient
+     */
+    protected ?SesClient $_ses = null;
 
     /**
-     * @var Aws\Ses\SesClient
+     * @var \Aws\Result
      */
-    protected $_ses = null;
-
-    /**
-     * @var Aws\Result
-     */
-    protected $_lastResponse = null;
-
+    protected ?Result $_lastResponse = null;
 
     /**
      * Returns the response of the last sent AWS SES API.
      *
-     * @return Aws\Result
+     * @return \Aws\Result
      */
-    public function getLastResponse()
+    public function getLastResponse(): Result
     {
         return $this->_lastResponse;
     }
@@ -52,7 +54,7 @@ class AwsSesTransport extends AbstractTransport
      *
      * @return void
      */
-    protected function _connect()
+    protected function _connect(): void
     {
         if ($this->_ses != null) {
             return;
@@ -82,7 +84,7 @@ class AwsSesTransport extends AbstractTransport
      *
      * @return void
      */
-    protected function _disconnect()
+    protected function _disconnect(): void
     {
         unset($this->_ses);
         $this->_ses = null;
@@ -129,17 +131,17 @@ class AwsSesTransport extends AbstractTransport
 
         try {
             $result = $this->_ses->sendRawEmail($args);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new SocketException($e->getMessage());
         }
 
-        if(empty($result)) {
+        if (empty($result)) {
             throw new SocketException();
         }
 
         $this->_lastResponse = $result;
         $results = $result->toArray();
-        if(!isset($results['@metadata']['statusCode']) || ($results['@metadata']['statusCode'] != 200)) {
+        if (!isset($results['@metadata']['statusCode']) || ($results['@metadata']['statusCode'] != 200)) {
             throw new SocketException();
         }
 
