@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<ruleset name="CakePHP AWS SES Transport">
+    <config name="installed_paths" value="../../cakephp/cakephp-codesniffer" />
+    <arg value="ns"/>
+
+    <file>src/</file>
+    <file>tests/</file>
+
+    <rule ref="CakePHP" />
+</ruleset>
