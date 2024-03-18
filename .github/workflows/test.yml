@@ -49,6 +49,6 @@ jobs:
       run: |
         composer update
 
-    - name: Run Test
+    - name: Run cs-check
       run: |
-        php tests/test.php
+        composer cs-check

@@ -8,6 +8,7 @@
         "aws/aws-sdk-php": "^3.133"
     },
     "require-dev": {
+	"cakephp/cakephp-codesniffer": "^5.0"
     },
     "autoload": {
         "psr-4": {
@@ -19,5 +20,18 @@
             "CakePHP3AwsSesTransport\\Test\\": "tests",
             "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "cakephp/plugin-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "platform-check": true,
+        "sort-packages": true
+    },
+    "scripts": {
+        "post-install-cmd": "App\\Console\\Installer::postInstall",
+        "post-create-project-cmd": "App\\Console\\Installer::postInstall",
+        "cs-check": "phpcs --colors -p"
     }
 }
